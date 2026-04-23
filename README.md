@@ -48,13 +48,13 @@ Configuration values are pulled from environment variables in `.env.example` and
 Clone or copy the package into your project, then install dependencies:
 
 ```bash
-npm install
+npm i node-forge-cli
 ```
 
 For automatic database dependency setup, run:
 
 ```bash
-npm run migration
+node-forge migration
 ```
 
 The database setup script creates `.env.example`, `config/database.js`, and `utils/database.js`, and installs required database packages such as `dotenv`, `mysql2`, `pg`, `mongoose`, `cassandra-driver`, and `ioredis`.
@@ -68,19 +68,19 @@ Add these scripts to your `package.json`:
 ```json
 {
   "scripts": {
-    "migration":          "node database/setup.js",
-    "migrate":            "node database/migrate.js",
-    "migrate:fresh":      "node database/migrate.js fresh",
-    "migrate:fresh-seed": "node database/migrate.js fresh --seed",
-    "migrate:rollback":   "node database/migrate.js rollback",
-    "make:controller":    "node cli/make-controller.js",
-    "make:model":         "node cli/make-model.js",
-    "make:migration":     "node cli/make-migration.js",
-    "make:seeder":        "node cli/make-seeder.js",
-    "make:view":          "node cli/make-view.js",
-    "make:route":         "node cli/make-route.js",
-    "make:database":      "node cli/make-database.js",
-    "make:resource":      "node cli/make-scaffold.js"
+    "migration":          "node-forge-forge database/setup.js",
+    "migrate":            "node-forge database/migrate.js",
+    "migrate:fresh":      "node-forge database/migrate.js fresh",
+    "migrate:fresh-seed": "node-forge database/migrate.js fresh --seed",
+    "migrate:rollback":   "node-forge database/migrate.js rollback",
+    "make:controller":    "node-forge cli/make-controller.js",
+    "make:model":         "node-forge cli/make-model.js",
+    "make:migration":     "node-forge cli/make-migration.js",
+    "make:seeder":        "node-forge cli/make-seeder.js",
+    "make:view":          "node-forge cli/make-view.js",
+    "make:route":         "node-forge cli/make-route.js",
+    "make:database":      "node-forge cli/make-database.js",
+    "make:resource":      "node-forge cli/make-scaffold.js"
   }
 }
 ```
@@ -92,46 +92,39 @@ Add these scripts to your `package.json`:
 ### 1. Setup Database Files
 
 ```bash
-npm run migration
+node-forge migration
 ```
 
 Prepares database-related configuration files and environment variables. You can also pass a database driver directly:
 
 ```bash
-node database/setup.js mysql
-node database/setup.js postgres
-node database/setup.js mongodb
-node database/setup.js redis
+node-forge database/setup.js mysql
+node-forge database/setup.js postgres
+node-forge database/setup.js mongodb
+node-forge database/setup.js redis
 ```
 
 ### 2. Run Migrations
 
 ```bash
-npm run migrate
+node-forge migrate
 ```
 
-Runs all migration files from the `database/migrations` directory.
+Runs all migration files from the `database` directory.
 
-### 3. Run Fresh Migrations
 
-```bash
-npm run migrate:fresh
-```
-
-Rolls back existing migrations and re-runs them from scratch. Disables foreign key checks before rollback.
-
-### 4. Run Fresh Migrations with Seeders
+### 3. Run Fresh Migrations with Seeders
 
 ```bash
-npm run migrate:fresh-seed
+node-forge migrate:fresh-seed
 ```
 
 Refreshes all migrations and then executes all seeders from the `database/seeders` directory.
 
-### 5. Rollback Migrations
+### 4. Rollback Migrations
 
 ```bash
-npm run migrate:rollback
+node-forge migrate:rollback
 ```
 
 Executes the `down()` method of migrations in reverse order.
@@ -143,8 +136,8 @@ Executes the `down()` method of migrations in reverse order.
 ### Create a Controller
 
 ```bash
-npm run make:controller user
-npm run make:controller admin/user
+node-forge make:controller user
+node-forge make:controller admin/user
 ```
 
 Creates controller files inside the `controllers/` directory with common CRUD methods: `index`, `show`, `store`, `update`, and `destroy`. Nested paths are supported.
@@ -152,8 +145,8 @@ Creates controller files inside the `controllers/` directory with common CRUD me
 ### Create a Model
 
 ```bash
-npm run make:model user
-npm run make:model admin/user
+node-forge make:model user
+node-forge make:model admin/user
 ```
 
 Creates a model class inside the `models/` directory. Nested paths are supported.
@@ -161,7 +154,7 @@ Creates a model class inside the `models/` directory. Nested paths are supported
 ### Create a Migration
 
 ```bash
-npm run make:migration create_users_table
+node-forge make:migration create_users_table
 ```
 
 Creates a timestamped migration file inside `database/migrations/` with `up()` and `down()` methods.
@@ -169,8 +162,8 @@ Creates a timestamped migration file inside `database/migrations/` with `up()` a
 ### Create a Seeder
 
 ```bash
-npm run make:seeder users_seeder
-npm run make:seeder admin/users_seeder
+node-forge make:seeder user
+node-forge make:seeder admin/users
 ```
 
 Creates a seeder file inside `database/seeders/`. Nested paths are supported.
@@ -178,8 +171,8 @@ Creates a seeder file inside `database/seeders/`. Nested paths are supported.
 ### Create a View
 
 ```bash
-npm run make:view users/index
-npm run make:view admin/users/show
+node-forge make:view users/index
+node-forge make:view admin/users/show
 ```
 
 Creates an `.ejs` view file inside the `views/` directory.
@@ -187,8 +180,8 @@ Creates an `.ejs` view file inside the `views/` directory.
 ### Create a Route
 
 ```bash
-npm run make:route user
-npm run make:route admin/user
+node-forge make:route user
+node-forge make:route admin/user
 ```
 
 Creates a route file inside `routes/` and auto-registers it in `routes/index.js`. Generated routes include standard CRUD endpoints.
@@ -196,8 +189,8 @@ Creates a route file inside `routes/` and auto-registers it in `routes/index.js`
 ### Create a Full Resource Scaffold
 
 ```bash
-npm run make:resource user
-npm run make:resource admin/user
+node-forge make:resource user
+node-forge make:resource admin/user
 ```
 
 Runs multiple CLI generators in sequence to scaffold a full resource. Creates the following files:
@@ -240,16 +233,16 @@ project/
 
 ```bash
 # 1. Setup database configuration
-npm run migration
+node-forge migration
 
 # 2. Generate a full user resource
-npm run make:resource user
+node-forge make:resource user
 
 # 3. Run migrations
-npm run migrate
+node-forge migrate
 
 # 4. Refresh migrations and seed the database
-npm run migrate:fresh-seed
+node-forge migrate:fresh-seed
 ```
 
 ---
