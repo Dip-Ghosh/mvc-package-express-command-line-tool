@@ -54,7 +54,6 @@ const destroy = async (id) => {
 };
 
 module.exports = {
-  index,
   show,
   store,
   update,
