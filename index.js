@@ -2,7 +2,8 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-const routes = require('./routesssssss');
+// eslint-disable-next-line n/no-missing-require
+const routes = require('./routes');
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');

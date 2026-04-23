@@ -5,24 +5,23 @@ const input = process.argv[2];
 
 if (!input) {
   console.error('Please provide a model name (e.g. user or admin/user)');
+  // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 }
 
-const toPascalCase = (str) =>
-  str
-    .toLowerCase()
-    .replace(/(^\w|[-_]\w)/g, (s) => s.replace(/[-_]/, '').toUpperCase());
-
+const toCamelCase = (str) => str.toLowerCase().replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
 const parts = input.split('/');
 const rawName = parts.pop();
-const modelName = toPascalCase(rawName);
+const modelName = toCamelCase(rawName);
 const folderPath = path.join(process.cwd(), 'models', ...parts);
-const filePath = path.join(folderPath, `${modelName}.js`);
+const fileName = `${modelName}.model.js`;
+const filePath = path.join(folderPath, fileName);
 
 fs.mkdirSync(folderPath, { recursive: true });
 
 if (fs.existsSync(filePath)) {
   console.error(`Model already exists: ${path.relative(process.cwd(), filePath)}`);
+  // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 }
 

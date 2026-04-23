@@ -5,6 +5,7 @@ const input = process.argv[2];
 
 if (!input) {
   console.error('❌ Please provide a controller name (e.g. user or admin/user)');
+  // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 }
 
@@ -19,12 +20,14 @@ const rawName = parts.pop();
 const className = normalizeName(toCamelCase(rawName));
 const baseName = className.replace(/Controller$/, '');
 const folderPath = path.join(process.cwd(), 'controllers', ...parts);
-const filePath = path.join(folderPath, `${className}.js`);
+const fileName = `${baseName}.controller.js`;
+const filePath = path.join(folderPath, fileName);
 
 fs.mkdirSync(folderPath, { recursive: true });
 
 if (fs.existsSync(filePath)) {
   console.error(`❌ Controller already exists: ${filePath}`);
+  // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 }
 

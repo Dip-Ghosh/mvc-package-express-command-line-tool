@@ -5,26 +5,26 @@ const input = process.argv[2];
 
 if (!input) {
   console.error('Please provide a route name (e.g. user or admin/user)');
+  // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 }
 
-const toCamelCase = (str) =>
-  str.toLowerCase().replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
+const toCamelCase = (str) => str.toLowerCase().replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
 
 const parts = input.split('/');
 const rawName = parts.pop();
-
-const routeName = `${toCamelCase(rawName)}Routes`;
+const routeName = `${toCamelCase(rawName)}`;
 const controllerName = `${toCamelCase(rawName)}Controller`;
-
 const folderPath = path.join(process.cwd(), 'routes', ...parts);
-const filePath = path.join(folderPath, `${routeName}.js`);
+const fileName = `${routeName}.route.js`;
+const filePath = path.join(folderPath, fileName);
 const routerPath = path.join(process.cwd(), 'routes', 'index.js');
 
 fs.mkdirSync(folderPath, { recursive: true });
 
 if (fs.existsSync(filePath)) {
   console.error(`Route already exists: ${path.relative(process.cwd(), filePath)}`);
+  // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 }
 
@@ -48,16 +48,20 @@ module.exports = router;
 fs.writeFileSync(filePath, content);
 
 if (!fs.existsSync(routerPath)) {
-  console.error('Base router file not found: routes/index.js');
-  // eslint-disable-next-line n/no-process-exit
-  process.exit(1);
+  const baseRouterContent = `
+const express = require('express');
+const router = express.Router();
+
+module.exports = router;
+`;
+
+  fs.writeFileSync(routerPath, baseRouterContent);
+  console.log('Base router file created: routes/index.js');
 }
 
 let routerContent = fs.readFileSync(routerPath, 'utf-8');
 
-const routeRequirePath = parts.length
-  ? `./${parts.join('/')}/${routeName}`
-  : `./${routeName}`;
+const routeRequirePath = parts.length ? `./${parts.join('/')}/${routeName}` : `./${routeName}`;
 
 const importLine = `const ${routeName} = require('${routeRequirePath}');`;
 const useLine = `router.use(${routeName});`;

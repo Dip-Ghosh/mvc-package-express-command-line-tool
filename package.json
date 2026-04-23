@@ -20,7 +20,8 @@
     "make:seeder": "node cli/make-seeder.js",
     "make:view": "node cli/make-view.js",
     "make:route": "node cli/make-route.js",
-    "make:database": "node cli/make-databases.js"
+    "make:database": "node cli/make-database.js",
+    "make:resource": "node cli/make-scaffold.js"
   },
   "lint-staged": {
     "*.js": [
@@ -44,6 +45,7 @@
     "body-parser": "^2.2.2",
     "dotenv": "^17.4.2",
     "ejs": "^5.0.2",
+    "express": "^5.2.1",
     "nodemon": "^3.1.14"
   },
   "devDependencies": {

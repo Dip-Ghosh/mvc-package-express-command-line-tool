@@ -287,6 +287,7 @@ const getRequiredPackages = () => {
     console.log(
       'Supported options: mysql, pgsql, postgres, postgresql, mongodb, mongoose, cassandra, redis'
     );
+    // eslint-disable-next-line n/no-process-exit
     process.exit(1);
   }
 
@@ -386,5 +387,6 @@ try {
   console.log('Database setup completed');
 } catch (error) {
   console.error('Failed to generate database setup:', error.message);
+  // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 }
