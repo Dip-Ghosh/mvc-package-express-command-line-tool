@@ -1,0 +1,52 @@
+{
+  "name": "mysql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix && prettier --write .",
+    "format": "prettier --write .",
+    "prepare": "husky",
+    "migration": "node database/setup.js",
+    "migrate": "node database/migrate.js",
+    "migrate:fresh": "node database/migrate.js fresh",
+    "migrate:fresh-seed": "node database/migrate.js fresh --seed",
+    "migrate:rollback": "node database/migrate.js rollback"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dip-Ghosh/mysql-learning.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Dip-Ghosh/mysql-learning/issues"
+  },
+  "homepage": "https://github.com/Dip-Ghosh/mysql-learning#readme",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.22.2",
+    "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-n": "^17.24.0",
+    "globals": "^17.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.3"
+  }
+}
