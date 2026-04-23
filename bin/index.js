@@ -24,18 +24,18 @@ const commands = {
 if (!command || !commands[command]) {
   console.log(`
 Usage:
-  forge migrate
-  forge migrate:fresh
-  forge migrate:fresh-seed
-  forge migrate:rollback
-  forge make:controller <name>
-  forge make:model <name>
-  forge make:migration <name>
-  forge make:seeder <name>
-  forge make:view <name>
-  forge make:route <name>
-  forge make:database
-  forge make:resource <name>
+  node-forge migrate
+  node-forge migrate:fresh
+  node-forge migrate:fresh-seed
+  node-forge migrate:rollback
+  node-forge make:controller <name>
+  node-forge make:model <name>
+  node-forge make:migration <name>
+  node-forge make:seeder <name>
+  node-forge make:view <name>
+  node-forge make:route <name>
+  node-forge make:database
+  node-forge make:resource <name>
 `);
   process.exit(1);
 }

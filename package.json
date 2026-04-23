@@ -1,10 +1,10 @@
 {
   "name": "node-forge-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Node.js CLI toolkit for scaffolding controllers, models, routes, views, and migrations with multi-database support",
   "main": "index.js",
   "bin": {
-    "forge": "bin/index.js"
+    "node-forge": "bin/index.js"
   },
   "keywords": [
     "cli",
