@@ -1,98 +1,145 @@
-🧹 ESLint + Prettier Setup (Modern Flat Config)
+🚀 Node.js Scaffolding & Multi-Database Manager
 
-A clean, modern setup using:
+A lightweight CLI-based scaffolding system for Node.js + Express, inspired by Laravel.
 
-ESLint v9+ (Flat Config)
-Prettier
-Husky + lint-staged (pre-commit enforcement)
-📦 1. Install Dependencies
-npm install -D eslint prettier eslint-config-prettier eslint-plugin-n globals
+✨ Features
+🧱 Full scaffolding system
+⚙️ CLI-based file generation
+🗄️ Multi-database support
+🔌 Connection manager (MySQL, PostgreSQL, MongoDB, Cassandra, Redis)
+📁 Auto project structure creation
+🔁 Environment-based configuration
+⚡ One Command = Full Setup
 
-eslint-plugin-n is the modern replacement for eslint-plugin-node.
+You can generate everything using commands like:
 
-⚙️ 2. ESLint Config (eslint.config.js)
-import pluginN from "eslint-plugin-n";
-import configPrettier from "eslint-config-prettier";
-import globals from "globals";
+npm run cli make:resource User
 
-export default [
-{
-languageOptions: {
-ecmaVersion: 2024,
-sourceType: "module",
-globals: globals.node,
-},
-plugins: { n: pluginN },
-rules: {
-...pluginN.configs["flat/recommended"].rules,
+👉 This will create:
 
-      // Custom rules
-      "no-unused-vars": "warn",
-      "no-console": "off",
-      "prefer-const": "error",
-
-      // ⚠️ Disable if using bundlers / TS
-      "n/no-missing-import": "error",
-    },
-
-},
-
-// Must be last — disables ESLint formatting conflicts
-configPrettier,
-];
-🎨 3. Prettier Config (.prettierrc)
-{
-"semi": true,
-"singleQuote": true,
-"tabWidth": 2,
-"trailingComma": "es5",
-"printWidth": 100
-}
-🚫 4. Ignore Files (Important)
-.eslintignore
-node_modules
-dist
-build
-coverage
-.prettierignore
-node_modules
-dist
-build
-coverage
-package-lock.json
-📜 5. Scripts (package.json)
-{
-"scripts": {
-"lint": "eslint .",
-"lint:fix": "eslint . --fix && prettier --write .",
-"format": "prettier --write ."
-}
-}
-🚀 One Command to Rule Them All
-npm run lint:fix
-What happens:
-Step Tool Action
-1 ESLint Fixes best-practice issues automatically
-2 Prettier Formats code style & alignment
-🔒 6. Pre-commit Hook (Husky + lint-staged)
-Install:
-npm install -D husky lint-staged
-npx husky init
+Controller
+Model
+Migration
+Seeder
+Route
+View (optional)
+Database structure (if needed)
+📁 Project Structure
+project/
+│
+├── cli/
+│   ├── index.js
+│   ├── make-controller.js
+│   ├── make-model.js
+│   ├── make-migration.js
+│   ├── make-seeder.js
+│   ├── make-route.js
+│   └── make-databases.js
+│
+├── config/
+│   └── database.js
+│
+├── controllers/
+├── models/
+├── routes/
+├── views/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+│
+├── utils/
+│   └── database.js
+│
+├── .env
+├── .env.example
+├── package.json
+📥 Installation
 npm install
-Add to package.json:
-{
-"lint-staged": {
-"\*.js": ["eslint --fix", "prettier --write"]
-}
-}
-Update .husky/pre-commit:
-npx lint-staged
-✅ Result
-Code is automatically linted & formatted
-Bad code cannot be committed
-Clean, consistent codebase across your team
-⚠️ Notes
+🧰 Required Packages
 
-Disable this rule if you're using TypeScript, Vite, or Webpack:
+These are automatically installed by:
 
-"n/no-missing-import": "off"
+npm run make:databases
+
+Or manually:
+
+npm install dotenv mysql2 pg mongoose cassandra-driver ioredis
+⚙️ Setup Database (One Command)
+npm run make:databases
+
+This will:
+
+install required packages
+create .env.example
+create config/database.js
+create utils/database.js
+🔁 Create .env
+cp .env.example .env
+
+Edit .env with your credentials.
+
+🧱 Scaffolding Commands
+
+Run all commands via:
+
+npm run cli <command>
+🔹 Create Controller
+npm run cli make:controller User
+🔹 Create Model
+npm run cli make:model User
+🔹 Create Migration
+npm run cli make:migration create_users_table
+🔹 Create Seeder
+npm run cli make:seeder UserSeeder
+🔹 Create Route
+npm run cli make:route user
+🔥 Create Everything (Recommended)
+npm run cli make:resource User
+
+This will generate:
+
+controllers/UserController.js
+models/User.js
+database/migrations/..._create_users_table.js
+database/seeders/UserSeeder.js
+routes/userRoutes.js
+views/user/ (optional)
+🗄️ Multi Database Support
+
+Supported databases:
+
+MySQL
+PostgreSQL
+MongoDB
+Cassandra
+Redis
+🔌 Database Usage
+const { connection } = require('../utils/database');
+Default Connection
+const db = await connection();
+MySQL
+const db = await connection('mysql');
+const [rows] = await db.execute('SELECT * FROM users');
+PostgreSQL
+const db = await connection('pgsql');
+const result = await db.query('SELECT * FROM users');
+MongoDB
+const db = await connection('mongodb');
+const users = await db.collection('users').find({}).toArray();
+Redis
+const redis = await connection('redis');
+await redis.set('key', 'value');
+⚠️ Important
+
+Always use:
+
+const db = await connection();
+
+Not:
+
+const db = connection(); // ❌
+🔁 Example Workflow
+    npm run make:databases
+    cp .env.example .env
+
+npm run cli make:resource User
