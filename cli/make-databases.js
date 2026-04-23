@@ -3,6 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const root = process.cwd();
+const args = process.argv.slice(2).map((arg) => arg.toLowerCase());
 
 const envExamplePath = path.join(root, '.env.example');
 
@@ -247,8 +248,53 @@ const appendIfMissing = (filePath, block, checkText) => {
   return true;
 };
 
+const packageMap = {
+  mysql: 'mysql2',
+  pgsql: 'pg',
+  postgres: 'pg',
+  postgresql: 'pg',
+  mongodb: 'mongoose',
+  mongoose: 'mongoose',
+  cassandra: 'cassandra-driver',
+  redis: 'ioredis',
+};
+
+const allPackages = ['dotenv', 'mysql2', 'pg', 'mongoose', 'cassandra-driver', 'ioredis'];
+
+const getRequiredPackages = () => {
+  if (args.length === 0) {
+    return allPackages;
+  }
+
+  const selected = ['dotenv'];
+  const invalid = [];
+
+  for (const arg of args) {
+    const pkg = packageMap[arg];
+
+    if (!pkg) {
+      invalid.push(arg);
+      continue;
+    }
+
+    if (!selected.includes(pkg)) {
+      selected.push(pkg);
+    }
+  }
+
+  if (invalid.length > 0) {
+    console.log(`Unknown database driver(s): ${invalid.join(', ')}`);
+    console.log(
+      'Supported options: mysql, pgsql, postgres, postgresql, mongodb, mongoose, cassandra, redis'
+    );
+    process.exit(1);
+  }
+
+  return selected;
+};
+
 const installPackages = () => {
-  const required = ['dotenv', 'mysql2', 'pg', 'mongoose', 'cassandra-driver', 'ioredis'];
+  const required = getRequiredPackages();
 
   let installed = {};
 

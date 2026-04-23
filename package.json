@@ -19,7 +19,8 @@
     "make:migration": "node cli/make-migration.js",
     "make:seeder": "node cli/make-seeder.js",
     "make:view": "node cli/make-view.js",
-    "make:route": "node cli/make-route.js"
+    "make:route": "node cli/make-route.js",
+    "make:database": "node cli/make-databases.js"
   },
   "lint-staged": {
     "*.js": [
@@ -41,15 +42,10 @@
   "homepage": "https://github.com/Dip-Ghosh/mysql-learning#readme",
   "dependencies": {
     "body-parser": "^2.2.2",
-    "cassandra-driver": "^4.8.0",
     "dotenv": "^17.4.2",
     "ejs": "^5.0.2",
-    "express": "^5.2.1",
-    "ioredis": "^5.10.1",
-    "mongoose": "^9.5.0",
     "mysql2": "^3.22.2",
-    "nodemon": "^3.1.14",
-    "pg": "^8.20.0"
+    "nodemon": "^3.1.14"
   },
   "devDependencies": {
     "eslint": "^10.2.1",
